@@ -1,4 +1,7 @@
 {
   "name": "handson-glaphqljs",
-  "description": "Hands on GraphQL.js"
+  "description": "Hands on GraphQL.js",
+  "dependencies": {
+    "graphql": "^16.8.1"
+  }
 }
