@@ -51,3 +51,19 @@ fetch('/graphql', {
 })
   .then(r => r.json())
   .then(data => console.log("data returned:", data));
+
+// set message (mutation)
+fetch('/graphql', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  },
+  body: JSON.stringify({
+    query: `mutation {
+      setMessage(message: "Hello GraphQL!")
+    }`
+  }),
+})
+  .then(r => r.json())
+  .then(data => console.log("data returned:", data));

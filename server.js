@@ -11,6 +11,9 @@ const schema = buildSchema(`
     rollOnce: Int!
     roll(numRolls: Int!): [Int]
   }
+  type Mutation {
+    setMessage(message: String): String
+  }
   type Query {
     hello: String
     rollDice(numDice: Int!, numSides: Int): [Int]
@@ -18,6 +21,7 @@ const schema = buildSchema(`
     random: Float!
     rollThreeDice: [Int]
     getDie(numSides: Int): RandomDie
+    getMessage: String
   }
 `);
 
@@ -36,6 +40,8 @@ class RandomDie {
     return output;
   }
 }
+
+const fakeDatabase = {};
 
 const rootValue = {
   hello: () => {
@@ -59,6 +65,13 @@ const rootValue = {
   },
   getDie: ({ numSides }) => {
     return new RandomDie(numSides || 6);
+  },
+  setMessage: ({ message }) => {
+    fakeDatabase.message = message;
+    return message;
+  },
+  getMessage: () => {
+    return fakeDatabase.message;
   }
 };
 
