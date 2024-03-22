@@ -31,3 +31,23 @@ fetch('/graphql', {
 })
   .then(r => r.json())
   .then(data => console.log("data returned:", data));
+
+// get die
+fetch('/graphql', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  },
+  body: JSON.stringify({
+    query: `{
+      getDie(numSides: 6) {
+        rollOnce
+        roll(numRolls: 3)
+      }
+    }`,
+    variables: { dice: 3, sides: 6 },
+  }),
+})
+  .then(r => r.json())
+  .then(data => console.log("data returned:", data));
