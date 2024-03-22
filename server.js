@@ -8,12 +8,20 @@ const { ruruHTML } = require('ruru/server');
 const schema = buildSchema(`
   type Query {
     hello: String
+    rollDice(numDice: Int!, numSides: Int): [Int]
   }
 `);
 
 const rootValue = {
   hello: () => {
     return "Hello world!";
+  },
+  rollDice: ({ numDice, numSides }) => {
+    const output = [];
+    for (let i = 0; i < numDice; i++) {
+      output.push(1 + Math.floor(Math.random() * (numSides || 6)));
+    }
+    return output;
   },
 };
 
