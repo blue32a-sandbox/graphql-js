@@ -22,6 +22,7 @@ const schema = buildSchema(`
     rollThreeDice: [Int]
     getDie(numSides: Int): RandomDie
     getMessage: String
+    ip: String
   }
 `);
 
@@ -42,6 +43,11 @@ class RandomDie {
 }
 
 const fakeDatabase = {};
+
+const loggingMiddleware = (req, _res, next) => {
+  console.log('ip:', req.ip);
+  next();
+}
 
 const rootValue = {
   hello: () => {
@@ -72,16 +78,22 @@ const rootValue = {
   },
   getMessage: () => {
     return fakeDatabase.message;
-  }
+  },
+  ip: function (_, context) {
+    return context.ip;
+  },
 };
 
 const app = express();
-
+app.use(loggingMiddleware);
 app.all(
   '/graphql',
   createHandler({
     schema,
-    rootValue
+    rootValue,
+    context: (req) => ({
+      ip: req.raw.ip,
+    }),
   })
 );
 
